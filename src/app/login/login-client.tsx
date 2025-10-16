@@ -58,7 +58,7 @@ export default function LoginClientPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-neutral-50 dark:bg-neutral-950 px-4 py-12">
+    <div className="flex flex-1 items-center justify-center bg-neutral-50 dark:bg-neutral-950 px-4 py-12">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Connexion</CardTitle>
