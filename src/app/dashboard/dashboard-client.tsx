@@ -50,6 +50,8 @@ export default function DashboardClientPage({ session }: { session: Session }) {
                     src={user.image}
                     alt={user.name}
                     className="h-16 w-16 rounded-full"
+                    width={64}
+                    height={64}
                   />
                 )}
                 <div>

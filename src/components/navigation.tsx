@@ -1,17 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
 import type { auth } from "@/lib/auth";
+import { Button } from "./ui/button";
+import { signOut } from "@/lib/actions/auth-actions";
 
 type Session = typeof auth.$Infer.Session;
 
 export default function Navigation({ session }: { session: Session | null }) {
-  const pathname = usePathname();
+  const router = useRouter();
 
-  const isActive = (path: string) => {
-    return pathname === path;
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/login");
+    router.refresh();
   };
 
   return (
@@ -44,17 +48,6 @@ export default function Navigation({ session }: { session: Session | null }) {
 
           <nav className="flex items-center space-x-6">
             <ThemeToggle />
-            <Link
-              href="/"
-              className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                isActive("/")
-                  ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950"
-                  : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
-              }`}
-            >
-              Accueil
-            </Link>
-
             {session && (
               <Link
                 href="/dashboard"
@@ -64,13 +57,10 @@ export default function Navigation({ session }: { session: Session | null }) {
               </Link>
             )}
 
-            {!session && (
-              <Link
-                href="/login"
-                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
-              >
-                Connexion
-              </Link>
+            {session && (
+              <Button onClick={handleSignOut} variant="outline">
+                Déconnexion
+              </Button>
             )}
           </nav>
         </div>
