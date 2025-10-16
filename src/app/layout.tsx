@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Navigation from "@/components/navigation";
 import { headers } from "next/headers";
-import { auth } from "@/lib/auth";
+import Navigation from "@/components/navigation";
 import { ThemeProvider } from "@/components/theme-provider";
+import { auth } from "@/lib/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +18,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Grouped Order - Commandes groupées de jeux de société",
-  description: "Application de gestion de commandes groupées pour l'achat de jeux de société depuis la France",
+  description:
+    "Application de gestion de commandes groupées pour l'achat de jeux de société depuis la France",
 };
 
 export default async function RootLayout({
@@ -43,9 +44,7 @@ export default async function RootLayout({
         >
           <div className="flex flex-col min-h-screen">
             <Navigation session={session} />
-            <main className="flex-1 flex flex-col">
-              {children}
-            </main>
+            <main className="flex-1 flex flex-col">{children}</main>
           </div>
         </ThemeProvider>
       </body>

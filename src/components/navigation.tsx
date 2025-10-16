@@ -1,9 +1,9 @@
 "use client";
 
-import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
+import type { auth } from "@/lib/auth";
 
 type Session = typeof auth.$Infer.Session;
 
@@ -25,6 +25,9 @@ export default function Navigation({ session }: { session: Session | null }) {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                role="img"
+                aria-label="Logo de Grouped Order"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"

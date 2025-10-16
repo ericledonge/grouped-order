@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +11,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { signOut } from "@/lib/actions/auth-actions";
-import { auth } from "@/lib/auth";
+import type { auth } from "@/lib/auth";
 
 type Session = typeof auth.$Infer.Session;
 
@@ -28,7 +29,9 @@ export default function DashboardClientPage({ session }: { session: Session }) {
     <div className="flex-1 bg-neutral-50 dark:bg-neutral-950 p-8">
       <div className="mx-auto max-w-4xl space-y-8">
         <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Tableau de bord</h1>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+            Tableau de bord
+          </h1>
           <Button variant="outline" onClick={handleSignOut}>
             Se déconnecter
           </Button>
@@ -37,15 +40,13 @@ export default function DashboardClientPage({ session }: { session: Session }) {
         <Card>
           <CardHeader>
             <CardTitle>Bienvenue !</CardTitle>
-            <CardDescription>
-              Vous êtes connecté avec succès
-            </CardDescription>
+            <CardDescription>Vous êtes connecté avec succès</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
               <div className="flex items-center gap-4">
                 {user.image && (
-                  <img
+                  <Image
                     src={user.image}
                     alt={user.name}
                     className="h-16 w-16 rounded-full"
@@ -64,11 +65,15 @@ export default function DashboardClientPage({ session }: { session: Session }) {
               <h3 className="mb-2 font-medium">Informations de session</h3>
               <dl className="space-y-1 text-sm">
                 <div className="flex justify-between">
-                  <dt className="text-neutral-500 dark:text-neutral-400">ID utilisateur:</dt>
+                  <dt className="text-neutral-500 dark:text-neutral-400">
+                    ID utilisateur:
+                  </dt>
                   <dd className="font-mono text-xs">{user.id}</dd>
                 </div>
                 <div className="flex justify-between">
-                  <dt className="text-neutral-500 dark:text-neutral-400">Email vérifié:</dt>
+                  <dt className="text-neutral-500 dark:text-neutral-400">
+                    Email vérifié:
+                  </dt>
                   <dd>
                     {user.emailVerified ? (
                       <span className="text-green-600">✓ Oui</span>

@@ -1,10 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -13,6 +11,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { signIn, signInSocial } from "@/lib/actions/auth-actions";
 
 export default function LoginClientPage() {
@@ -28,14 +28,9 @@ export default function LoginClientPage() {
     setError("");
 
     try {
-      const result = await signIn(email, password);
-
-      if (result.error) {
-        setError(result.error.message || "Une erreur est survenue");
-      } else {
-        router.push("/dashboard");
-        router.refresh();
-      }
+      await signIn(email, password);
+      router.push("/dashboard");
+      router.refresh();
     } catch (err) {
       setError("Une erreur est survenue lors de la connexion");
       console.error(err);
@@ -139,7 +134,10 @@ export default function LoginClientPage() {
         <CardFooter className="flex flex-col space-y-2">
           <div className="text-sm text-neutral-500">
             Pas encore de compte?{" "}
-            <a href="/signup" className="font-medium text-neutral-900 dark:text-neutral-100 hover:underline">
+            <a
+              href="/signup"
+              className="font-medium text-neutral-900 dark:text-neutral-100 hover:underline"
+            >
               Créer un compte
             </a>
           </div>
