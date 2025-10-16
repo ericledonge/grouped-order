@@ -58,7 +58,7 @@ export default function LoginClientPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-neutral-50 px-4 py-12">
+    <div className="flex min-h-screen items-center justify-center bg-neutral-50 dark:bg-neutral-950 px-4 py-12">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Connexion</CardTitle>
@@ -108,7 +108,7 @@ export default function LoginClientPage() {
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-white px-2 text-neutral-500">
+              <span className="bg-white dark:bg-neutral-950 px-2 text-neutral-500">
                 Ou continuer avec
               </span>
             </div>
@@ -139,7 +139,7 @@ export default function LoginClientPage() {
         <CardFooter className="flex flex-col space-y-2">
           <div className="text-sm text-neutral-500">
             Pas encore de compte?{" "}
-            <a href="/signup" className="font-medium text-neutral-900 hover:underline">
+            <a href="/signup" className="font-medium text-neutral-900 dark:text-neutral-100 hover:underline">
               Créer un compte
             </a>
           </div>

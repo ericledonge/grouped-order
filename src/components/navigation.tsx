@@ -3,6 +3,7 @@
 import { auth } from "@/lib/auth";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 type Session = typeof auth.$Infer.Session;
 
@@ -14,7 +15,7 @@ export default function Navigation({ session }: { session: Session | null }) {
   };
 
   return (
-    <header className="bg-white backdrop-blur-sm border-b border-gray-200 sticky top-0 z-50">
+    <header className="bg-white dark:bg-gray-900 backdrop-blur-sm border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/" className="flex items-center space-x-3">
@@ -33,18 +34,19 @@ export default function Navigation({ session }: { session: Session | null }) {
                 />
               </svg>
             </div>
-            <span className="text-xl font-bold text-gray-900">
+            <span className="text-xl font-bold text-gray-900 dark:text-white">
               Grouped Order
             </span>
           </Link>
 
           <nav className="flex items-center space-x-6">
+            <ThemeToggle />
             <Link
               href="/"
               className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                 isActive("/")
-                  ? "text-indigo-600 bg-indigo-50"
-                  : "text-gray-600 hover:text-gray-900"
+                  ? "text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950"
+                  : "text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
               }`}
             >
               Accueil
@@ -62,7 +64,7 @@ export default function Navigation({ session }: { session: Session | null }) {
             {!session && (
               <Link
                 href="/login"
-                className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors"
+                className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white px-3 py-2 rounded-md text-sm font-medium transition-colors"
               >
                 Connexion
               </Link>
