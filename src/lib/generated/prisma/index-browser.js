@@ -127,6 +127,9 @@ exports.Prisma.UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   image: 'image',
   role: 'role',
+  banned: 'banned',
+  banReason: 'banReason',
+  banExpiresAt: 'banExpiresAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
