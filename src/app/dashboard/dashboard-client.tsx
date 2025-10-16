@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -12,12 +13,24 @@ import {
 } from "@/components/ui/card";
 import { signOut } from "@/lib/actions/auth-actions";
 import type { auth } from "@/lib/auth";
+import { UserRole } from "@/lib/generated/prisma";
 
 type Session = typeof auth.$Infer.Session;
 
+interface ExtendedUser {
+  id: string;
+  email: string;
+  name: string;
+  role: UserRole;
+  image?: string | null;
+  emailVerified: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export default function DashboardClientPage({ session }: { session: Session }) {
   const router = useRouter();
-  const user = session.user;
+  const user = session.user as ExtendedUser;
 
   const handleSignOut = async () => {
     await signOut();
@@ -54,8 +67,19 @@ export default function DashboardClientPage({ session }: { session: Session }) {
                     height={64}
                   />
                 )}
-                <div>
-                  <p className="font-medium">{user.name}</p>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <p className="font-medium">{user.name}</p>
+                    <Badge
+                      variant={
+                        user.role === UserRole.ADMIN ? "default" : "secondary"
+                      }
+                    >
+                      {user.role === UserRole.ADMIN
+                        ? "Administrateur"
+                        : "Membre"}
+                    </Badge>
+                  </div>
                   <p className="text-sm text-neutral-500 dark:text-neutral-400">
                     {user.email}
                   </p>
@@ -71,6 +95,14 @@ export default function DashboardClientPage({ session }: { session: Session }) {
                     ID utilisateur:
                   </dt>
                   <dd className="font-mono text-xs">{user.id}</dd>
+                </div>
+                <div className="flex justify-between">
+                  <dt className="text-neutral-500 dark:text-neutral-400">
+                    Rôle:
+                  </dt>
+                  <dd className="font-medium">
+                    {user.role === UserRole.ADMIN ? "Administrateur" : "Membre"}
+                  </dd>
                 </div>
                 <div className="flex justify-between">
                   <dt className="text-neutral-500 dark:text-neutral-400">

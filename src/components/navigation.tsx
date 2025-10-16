@@ -3,9 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { signOut } from "@/lib/actions/auth-actions";
 import type { auth } from "@/lib/auth";
 import { Button } from "./ui/button";
-import { signOut } from "@/lib/actions/auth-actions";
 
 type Session = typeof auth.$Infer.Session;
 
@@ -51,10 +51,27 @@ export default function Navigation({ session }: { session: Session | null }) {
             {session && (
               <Link
                 href="/dashboard"
-                className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors"
+                className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors text-sm font-medium"
               >
                 Tableau de bord
               </Link>
+            )}
+
+            {session?.user?.role === "ADMIN" && (
+              <>
+                <Link
+                  href="/admin/orders"
+                  className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors text-sm font-medium"
+                >
+                  Commandes
+                </Link>
+                <Link
+                  href="/admin/members"
+                  className="text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors text-sm font-medium"
+                >
+                  Membres
+                </Link>
+              </>
             )}
 
             {session && (

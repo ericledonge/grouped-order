@@ -14,6 +14,7 @@ export const signUp = async (email: string, password: string, name: string) => {
     },
   });
 
+  // Admin promotion is now handled automatically by Better Auth hooks
   return result;
 };
 
@@ -26,6 +27,7 @@ export const signIn = async (email: string, password: string) => {
     },
   });
 
+  // Admin promotion is now handled automatically by Better Auth hooks
   return result;
 };
 

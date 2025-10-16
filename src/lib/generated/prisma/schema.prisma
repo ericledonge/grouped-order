@@ -14,16 +14,24 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum UserRole {
+  ADMIN
+  MEMBER
+}
+
 model User {
-  id            String    @id
+  id            String         @id
   name          String
   email         String
-  emailVerified Boolean   @default(false)
+  emailVerified Boolean        @default(false)
   image         String?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @default(now()) @updatedAt
+  role          UserRole       @default(MEMBER)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @default(now()) @updatedAt
   sessions      Session[]
   accounts      Account[]
+  wishes        Wish[]
+  notifications Notification[]
 
   @@unique([email])
   @@map("user")
@@ -72,4 +80,110 @@ model Verification {
   updatedAt  DateTime @default(now()) @updatedAt
 
   @@map("verification")
+}
+
+enum OrderType {
+  MONTHLY
+  PRIVATE_SALE
+}
+
+enum OrderStatus {
+  PLANNING
+  IN_PROGRESS
+  IN_DELIVERY
+  COMPLETED
+  CANCELLED
+}
+
+model Order {
+  id                 String         @id @default(cuid())
+  type               OrderType
+  status             OrderStatus    @default(PLANNING)
+  title              String
+  description        String?
+  targetDate         DateTime?
+  orderPlacedAt      DateTime?
+  deliveryExpectedAt DateTime?
+  deliveredAt        DateTime?
+  customsFees        Float?         @default(0)
+  shippingCost       Float?         @default(0)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+  wishes             Wish[]
+  orderItems         OrderItem[]
+  notifications      Notification[]
+
+  @@map("order")
+}
+
+enum WishStatus {
+  SUBMITTED
+  VALIDATED
+  REJECTED
+  CONFIRMED
+  CANCELLED
+}
+
+model Wish {
+  id             String     @id @default(cuid())
+  userId         String
+  orderId        String
+  user           User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order          Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productName    String
+  productUrl     String?
+  quantity       Int        @default(1)
+  estimatedPrice Float?
+  validatedPrice Float?
+  memberComments String?
+  adminComments  String?
+  status         WishStatus @default(SUBMITTED)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  @@map("wish")
+}
+
+model OrderItem {
+  id                  String   @id @default(cuid())
+  orderId             String
+  order               Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productName         String
+  productUrl          String?
+  quantity            Int      @default(1)
+  unitPrice           Float
+  allocatedCustomsFee Float?   @default(0)
+  allocatedShipping   Float?   @default(0)
+  totalPrice          Float
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  @@map("order_item")
+}
+
+enum NotificationType {
+  WISH_VALIDATED
+  WISH_REJECTED
+  PRICE_PUBLISHED
+  PAYMENT_REQUIRED
+  ORDER_PLACED
+  ORDER_DELIVERED
+  READY_FOR_PICKUP
+  GENERAL
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  type      NotificationType
+  title     String
+  message   String
+  orderId   String?
+  order     Order?           @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+
+  @@map("notification")
 }
